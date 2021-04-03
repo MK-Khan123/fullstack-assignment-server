@@ -15,10 +15,10 @@ const port = process.env.PORT || 5000;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 client.connect(err => {
-    const collection = client.db("groceryHouse").collection("products");
-    app.post('/addProduct', (req, res) => {
+    const productCollection = client.db("groceryHouse").collection("products");
+    // app.post('/addProduct', (req, res) => {
 
-    });
+    // });
     // perform actions on the collection object
 });
 
