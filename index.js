@@ -5,7 +5,7 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config();
 
-const uri = "mongodb+srv://mehnaz3114:emaJaikoi3124@cluster0.s88xr.mongodb.net/groceryHouse?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.s88xr.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 const app = express();
 app.use(cors());
@@ -30,7 +30,13 @@ client.connect(err => {
         productCollection.find({ _id: ObjectId(req.params.id) })
             .toArray((err, item) => {
                 res.send(item[0]);
-                // res.send(item)
+            })
+    });
+
+    app.get('/orders', (req, res) => {
+        ordersCollection.find({ email: req.query.email })
+            .toArray((err, documents) => {
+                res.send(documents);
             })
     });
 
@@ -53,7 +59,4 @@ client.connect(err => {
     });
 });
 
-
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
-});
+app.listen(port);
