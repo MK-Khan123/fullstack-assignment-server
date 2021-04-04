@@ -17,37 +17,42 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 client.connect(err => {
     const productCollection = client.db("groceryHouse").collection("products");
-    
-    app.get('/products', (req,res) => {
+    const ordersCollection = client.db("groceryHouse").collection("orders");
+
+    app.get('/products', (req, res) => {
         productCollection.find()
-        .toArray((err, items) => {
-            res.send(items);
-        })
+            .toArray((err, items) => {
+                res.send(items);
+            })
     });
 
     app.get('/product/:id', (req, res) => {
-        productCollection.find({_id: ObjectId(req.params.id)})
-         .toArray((err, item) => {
-            res.send(item[0]);
-            // res.send(item)
-         })
+        productCollection.find({ _id: ObjectId(req.params.id) })
+            .toArray((err, item) => {
+                res.send(item[0]);
+                // res.send(item)
+            })
     });
-    
+
     app.post('/addProduct', (req, res) => {
         const newProduct = req.body;
-
         productCollection.insertOne(newProduct)
-         .then(result => {
-             console.log(result.insertedCount);
-             res.send(result.insertedCount > 0);
-         })
+            .then(result => {
+                console.log(result.insertedCount);
+                res.send(result.insertedCount > 0);
+            })
+    });
+
+    app.post('/addOrder', (req, res) => {
+        const orders = req.body;
+        ordersCollection.insertOne(orders)
+            .then(result => {
+                console.log(result.insertedCount);
+                res.send(result.insertedCount > 0);
+            })
     });
 });
 
-
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-});
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
