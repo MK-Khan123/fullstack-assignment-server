@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config();
 
 const uri = "mongodb+srv://mehnaz3114:emaJaikoi3124@cluster0.s88xr.mongodb.net/groceryHouse?retryWrites=true&w=majority";
@@ -16,10 +17,31 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 client.connect(err => {
     const productCollection = client.db("groceryHouse").collection("products");
-    // app.post('/addProduct', (req, res) => {
+    
+    app.get('/products', (req,res) => {
+        productCollection.find()
+        .toArray((err, items) => {
+            res.send(items);
+        })
+    });
 
-    // });
-    // perform actions on the collection object
+    app.get('/product/:id', (req, res) => {
+        productCollection.find({_id: ObjectId(req.params.id)})
+         .toArray((err, item) => {
+            res.send(item[0]);
+            // res.send(item)
+         })
+    });
+    
+    app.post('/addProduct', (req, res) => {
+        const newProduct = req.body;
+
+        productCollection.insertOne(newProduct)
+         .then(result => {
+             console.log(result.insertedCount);
+             res.send(result.insertedCount > 0);
+         })
+    });
 });
 
 
