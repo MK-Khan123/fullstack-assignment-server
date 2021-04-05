@@ -57,6 +57,15 @@ client.connect(err => {
                 res.send(result.insertedCount > 0);
             })
     });
+
+    app.delete('/deleteProduct/:id', (req, res) => {
+        const id = ObjectId(req.params.id);
+        productCollection.findOneAndDelete({ _id: id })
+            .then(result => {
+                console.log("product deleted successfully");
+                res.send(result);
+            })
+    });
 });
 
 app.listen(port);
