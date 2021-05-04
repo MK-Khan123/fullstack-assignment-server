@@ -18,7 +18,7 @@ In this project, we were introduced to the idea of backend technologies. We had 
 
 4. Admin can add/remove products and when products are added/removed, changes are reflected immediately on the homepage. User can view his/her specific order summary by clicking on 'Orders' tab.
 
-5. In addition, we used plain bootstrap to make the website device responsive. Furthermore, we deployed our site on Firebase which can be accessed through the above mentioned link to experience the website.
+5. In addition, we used plain bootstrap to make the website device responsive (for mobile and desktop version). Furthermore, we deployed our site on Firebase which can be accessed through the above mentioned link to experience the website.
 
 Some screenshots of the project, 
 [Homepage](https://ibb.co/ZSm5hL5),
